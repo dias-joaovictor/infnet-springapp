@@ -1,0 +1,182 @@
+@startuml
+
+package model {
+  class Order {
+    - UUID id
+    - Date orderDate
+    - BigDecimal amount
+    - BigDecimal fee
+    - BigDecimal totalAmount
+    - Customer: customer
+    - List<Payment>: payments
+
+    
+    + getId(): UUID
+    + setId(id: UUID): void
+    
+    + getOrderDate(): Date
+    + setOrderDate(orderDate: Date): void
+    
+    + getTotalAmount(): BigDecimal
+    + setTotalAmount(totalAmount: BigDecimal): void
+
+    + getAmount(): BigDecimal
+    + setAmount(amount: BigDecimal): void
+    
+    + getFee(): BigDecimal
+    + setFee(fee: BigDecimal): void
+
+    + getCustomer(): Customer
+    + setCustomer(customer: Customer): void
+
+    + getPayments(): List<Payment>
+    + setPayments(List<Payment>: payments): void
+  }
+
+  class Customer {
+    - UUID id
+    - String fullName
+    - LocalDate dateOfBirth
+
+    
+    + getId(): UUID
+    + setId(id: UUID): void
+    
+    + getFullName(): String
+    + setFullName(fullName: String): void
+    
+    + getDateOfBirth(): LocalDate
+    + setDateOfBirth(dateOfBirth: LocalDate): void
+  }
+
+  abstract class Payment {
+    - UUID id
+    - Order order
+    - BigDecimal amount
+
+    
+    + getId(): UUID
+    + setId(id: UUID): void
+    
+    + getOrder(): Order
+    + setOrder(order: Order): void
+    
+    + getAmount(): BigDecimal
+    + setAmount(amount: BigDecimal): void
+  }
+
+  class CardPayment {
+    - String cardHash
+    - String cardholderName
+    - Date expiryDate
+
+
+    + getCardHash(): String
+    + setCardHash(cardHash: String): void
+    
+    + getCardholderName(): String
+    + setCardholderName(cardholderName: String): void
+    
+    + getExpiryDate(): Date
+    + setExpiryDate(expiryDate: Date): void
+  }
+
+  class PixPayment {
+    - String pixKey
+    
+    + getPixKey(): String
+    + setPixKey(pixKey: String): void
+  }
+
+  class Fee {
+    - UUID id
+    - BigDecimal feeAmount
+    - Date fromDate
+    
+    
+    + getId(): UUID
+    + setId(id: UUID): void
+    
+    + getFeeAmount(): BigDecimal
+    + setFeeAmount(feeAmount: BigDecimal): void
+    
+    + getFromDate(): Date
+    + setFromDate(fromDate: Date): void
+  }
+
+  Order "1" --> "1..*" Payment
+  Order "0..*" --> "1" Customer
+  Payment <|-- CardPayment
+  Payment <|-- PixPayment
+}
+
+package dao {
+  interface OrderRepository {
+    + save(order: Order): Order
+  }
+
+  interface CustomerRepository {
+    + save(customer: Customer): Customer
+    + findByCustomerName(name: String): Customer
+    + findAll(): List<Customer>
+  }
+
+  interface FeeRepository {
+    + findValidFeeByDate(date: LocalDate): Fee
+  }
+
+  OrderRepository ..> Order : "Depends on"
+  FeeRepository ..> Fee : "Depends on"
+  CustomerRepository ..> Customer : "Depends on"
+}
+
+package service {
+
+  class FeeService {
+    - FeeRepository feeRepository
+
+    + getFeeForDate(date: LocalDate): BigDecimal
+  }
+
+    class CustomerService {
+    - CustomerRepository customerRepository
+
+    + findAll(): List<Customer>
+  }
+
+  class OrderService {
+    - OrderRepository orderRepository
+    - FeeService feeService
+
+    + calculateOrderAmount(order: Order): void
+    + checkout(order: Order): void
+  }
+
+  OrderService ..> Order : "Depends on"
+  OrderService ..> OrderRepository : "Depends on"
+  OrderService ..> FeeService : "Depends on"
+  OrderService ..> Fee : "Depends on"
+  CustomerService ..> CustomerRepository : "Depends on"
+  CustomerService ..> Customer : "Depends on"
+}
+
+package controller {
+  class CustomerController{
+    - CustomerService customerService
+
+    + <<annotation>> @GetMapping getAllCustomers(): List<Customer>
+  }
+
+  class OrderController{
+    - OrderService orderService
+
+    + <<annotation>> @PostMapping calculateOrderAmount(order: Order): Order
+    + <<annotation>> @PostMapping checkout(order: Order): void
+  }
+
+  OrderController ..> OrderService : "Depends on"
+  CustomerController ..> CustomerService : "Depends on"
+}
+
+
+@enduml
