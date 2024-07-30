@@ -24,4 +24,5 @@ public class Customer {
     private UUID id;
     private String fullName;
     private LocalDate dateOfBirth;
+    private boolean enabled;
 }

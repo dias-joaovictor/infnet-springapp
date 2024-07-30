@@ -37,6 +37,7 @@ package model {
     - UUID id
     - String fullName
     - LocalDate dateOfBirth
+    - Boolean: enabled
 
     
     + getId(): UUID
@@ -47,6 +48,9 @@ package model {
     
     + getDateOfBirth(): LocalDate
     + setDateOfBirth(dateOfBirth: LocalDate): void
+
+    + isEnabled(): Boolean
+    + setEnabled(enabled: Boolean): void
   }
 
   abstract class Payment {
