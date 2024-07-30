@@ -155,9 +155,9 @@ package service {
   OrderService ..> Order : "Depends on"
   OrderService ..> OrderRepository : "Depends on"
   OrderService ..> FeeService : "Depends on"
-  OrderService ..> Fee : "Depends on"
   CustomerService ..> CustomerRepository : "Depends on"
   CustomerService ..> Customer : "Depends on"
+  FeeService ..> FeeRepository : "Depends on"
 }
 
 package controller {
