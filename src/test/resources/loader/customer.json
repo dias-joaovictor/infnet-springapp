@@ -1,0 +1,20 @@
+[
+  {
+    "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    "fullName": "Alice Johnson",
+    "dateOfBirth": "1985-03-15",
+    "enabled": true
+  },
+  {
+    "id": "ec0b1b9b-0b76-4d5f-98f8-216116f5b3f1",
+    "fullName": "Bob Smith",
+    "dateOfBirth": "1990-07-22",
+    "enabled": false
+  },
+  {
+    "id": "8e1c9d61-5394-4f8a-8f9d-1a60d5b0e840",
+    "fullName": "Carol Williams",
+    "dateOfBirth": "1978-12-05",
+    "enabled": true
+  }
+]

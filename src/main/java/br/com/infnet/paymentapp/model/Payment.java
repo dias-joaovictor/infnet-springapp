@@ -1,5 +1,7 @@
 package br.com.infnet.paymentapp.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CardPayment.class, name = "card"),
+        @JsonSubTypes.Type(value = PixPayment.class, name = "pix"),
+})
 public abstract class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

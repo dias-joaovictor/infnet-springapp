@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -21,10 +21,6 @@ public class Fee {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private BigDecimal feeAmount;
-    private Date fromDate;
-
-    @ManyToOne
-    @JoinColumn(name = "orderId")
-    private Order order;
+    private LocalDate fromDate;
 }
 
