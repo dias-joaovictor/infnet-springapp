@@ -3,7 +3,7 @@
 package model {
   class Order {
     - UUID id
-    - Date orderDate
+    - LocalDate orderDate
     - BigDecimal amount
     - BigDecimal fee
     - BigDecimal totalAmount
@@ -14,8 +14,8 @@ package model {
     + getId(): UUID
     + setId(id: UUID): void
     
-    + getOrderDate(): Date
-    + setOrderDate(orderDate: Date): void
+    + getOrderDate(): LocalDate
+    + setOrderDate(orderDate: LocalDate): void
     
     + getTotalAmount(): BigDecimal
     + setTotalAmount(totalAmount: BigDecimal): void
@@ -72,7 +72,7 @@ package model {
   class CardPayment {
     - String cardHash
     - String cardholderName
-    - Date expiryDate
+    - LocalDate expiryDate
 
 
     + getCardHash(): String
@@ -81,8 +81,8 @@ package model {
     + getCardholderName(): String
     + setCardholderName(cardholderName: String): void
     
-    + getExpiryDate(): Date
-    + setExpiryDate(expiryDate: Date): void
+    + getExpiryDate(): LocalDate
+    + setExpiryDate(expiryDate: LocalDate): void
   }
 
   class PixPayment {
@@ -95,7 +95,7 @@ package model {
   class Fee {
     - UUID id
     - BigDecimal feeAmount
-    - Date fromDate
+    - LocalDate fromDate
     
     
     + getId(): UUID
@@ -104,8 +104,8 @@ package model {
     + getFeeAmount(): BigDecimal
     + setFeeAmount(feeAmount: BigDecimal): void
     
-    + getFromDate(): Date
-    + setFromDate(fromDate: Date): void
+    + getFromDate(): LocalDate
+    + setFromDate(fromDate: LocalDate): void
   }
 
   Order "1" --> "1..*" Payment
@@ -126,7 +126,7 @@ package dao {
   }
 
   interface FeeRepository {
-    + findValidFeeByDate(date: LocalDate): Fee
+    + findValidFeeByDate(LocalDate: LocalDate): Fee
   }
 
   OrderRepository ..> Order : "Depends on"
@@ -139,7 +139,7 @@ package service {
   class FeeService {
     - FeeRepository feeRepository
 
-    + getFeeForDate(date: LocalDate): BigDecimal
+    + getFeeForDate(LocalDate: LocalDate): BigDecimal
   }
 
     class CustomerService {
@@ -181,6 +181,5 @@ package controller {
   OrderController ..> OrderService : "Depends on"
   CustomerController ..> CustomerService : "Depends on"
 }
-
 
 @enduml
