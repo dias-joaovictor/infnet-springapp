@@ -2,17 +2,19 @@ package br.com.infnet.paymentapp.service;
 
 import br.com.infnet.paymentapp.dao.FeeRepository;
 import br.com.infnet.paymentapp.model.Fee;
-import lombok.RequiredArgsConstructor;
+import br.com.infnet.paymentapp.service.endpoint.BasicCrudOperationServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
-public class FeeServiceImpl implements FeeService {
-
-    private final FeeRepository repository;
+public class FeeServiceImpl extends BasicCrudOperationServiceImpl<Fee, UUID> implements FeeService {
+    
+    public FeeServiceImpl(FeeRepository feeRepository) {
+        super(feeRepository);
+    }
 
     @Override
     public void save(Fee entity) {
@@ -21,7 +23,7 @@ public class FeeServiceImpl implements FeeService {
 
     @Override
     public BigDecimal getFeeForDate(LocalDate date) {
-        return repository.findFeeForDate(date)
+        return ((FeeRepository) repository).findFeeForDate(date)
                 .map(Fee::getFeeAmount)
                 .orElse(BigDecimal.ZERO);
     }

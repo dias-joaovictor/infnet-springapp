@@ -2,16 +2,17 @@ package br.com.infnet.paymentapp.service;
 
 import br.com.infnet.paymentapp.dao.CustomerRepository;
 import br.com.infnet.paymentapp.model.Customer;
-import lombok.RequiredArgsConstructor;
+import br.com.infnet.paymentapp.service.endpoint.BasicCrudOperationServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl extends BasicCrudOperationServiceImpl<Customer, UUID> implements CustomerService {
 
-    private final CustomerRepository repository;
+    public CustomerServiceImpl(CustomerRepository repository) {
+        super(repository);
+    }
 
     @Override
     public void save(Customer entity) {

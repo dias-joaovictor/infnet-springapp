@@ -1,4 +1,4 @@
-package br.com.infnet.paymentapp.configuration;
+package br.com.infnet.paymentapp.configuration.parser;
 
 import br.com.infnet.paymentapp.dto.csv.CustomerCsv;
 import br.com.infnet.paymentapp.dto.csv.FeeCsv;

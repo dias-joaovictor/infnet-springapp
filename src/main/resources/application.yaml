@@ -1,4 +1,7 @@
 spring:
+  application:
+    name: payment-app
+    formatted-name: Payment App
   datasource:
     url: jdbc:mysql://localhost:3306/payment
     username: payment_user
@@ -9,7 +12,6 @@ spring:
       ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
     properties:
       hibernate:
         format_sql: true
@@ -22,5 +24,9 @@ spring:
     password: payment_password
     url: jdbc:mysql://localhost:3306/payment
 
+
+springdoc:
+  swagger-ui:
+    path: /
 
 

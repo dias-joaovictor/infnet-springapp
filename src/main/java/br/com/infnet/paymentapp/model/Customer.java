@@ -27,4 +27,5 @@ public class Customer extends UUIDEntity {
     private String fullName;
     private LocalDate dateOfBirth;
     private boolean enabled;
+
 }

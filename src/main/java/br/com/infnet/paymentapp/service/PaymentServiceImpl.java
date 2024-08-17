@@ -1,15 +1,18 @@
 package br.com.infnet.paymentapp.service;
 
-import br.com.infnet.paymentapp.dao.PaymentRepository;
 import br.com.infnet.paymentapp.model.Payment;
-import lombok.RequiredArgsConstructor;
+import br.com.infnet.paymentapp.service.endpoint.BasicCrudOperationServiceImpl;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class PaymentServiceImpl implements PaymentService {
+import java.util.UUID;
 
-    private final PaymentRepository repository;
+@Service
+public class PaymentServiceImpl extends BasicCrudOperationServiceImpl<Payment, UUID> implements PaymentService {
+
+    public PaymentServiceImpl(JpaRepository<Payment, UUID> repository) {
+        super(repository);
+    }
 
     @Override
     public void save(Payment entity) {

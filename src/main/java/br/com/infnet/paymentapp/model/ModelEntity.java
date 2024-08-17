@@ -1,4 +1,10 @@
 package br.com.infnet.paymentapp.model;
 
-public interface ModelEntity {
+import java.io.Serializable;
+
+public interface ModelEntity<ID extends Serializable> {
+
+    ID getId();
+
+    void setId(ID id);
 }

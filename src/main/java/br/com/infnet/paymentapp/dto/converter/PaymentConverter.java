@@ -1,13 +1,16 @@
 package br.com.infnet.paymentapp.dto.converter;
 
 import br.com.infnet.paymentapp.dto.csv.PaymentCsv;
+import br.com.infnet.paymentapp.dto.rest.PaymentModel;
 import br.com.infnet.paymentapp.model.CardPayment;
 import br.com.infnet.paymentapp.model.Payment;
 import br.com.infnet.paymentapp.model.PixPayment;
 import org.mapstruct.Mapper;
 
 @Mapper
-public abstract class PaymentConverter implements CsvConverter<PaymentCsv, Payment> {
+public abstract class PaymentConverter implements CsvConverter<PaymentCsv, Payment>,
+        InboundConverter<PaymentModel, Payment>,
+        OutboundConverter<Payment, PaymentModel> {
 
     @Override
     public Payment convert(PaymentCsv source) {
@@ -18,6 +21,16 @@ public abstract class PaymentConverter implements CsvConverter<PaymentCsv, Payme
         } else {
             throw new IllegalArgumentException("Unsupported PaymentCsv subtype: " + source.getClass().getName());
         }
+    }
+
+    @Override
+    public PaymentModel convert(Payment entity) {
+        return null;
+    }
+
+    @Override
+    public Payment convert(PaymentModel source) {
+        return null;
     }
 
     public abstract CardPayment convertCardPayment(PaymentCsv source);
