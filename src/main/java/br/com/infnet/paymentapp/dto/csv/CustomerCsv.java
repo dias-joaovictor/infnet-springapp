@@ -1,10 +1,6 @@
-package br.com.infnet.paymentapp.model;
+package br.com.infnet.paymentapp.dto.csv;
 
-import jakarta.persistence.Entity;
-
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,17 +9,21 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Customer {
+public class CustomerCsv implements Csv {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @CsvBindByName(column = "ID")
     private UUID id;
+
+    @CsvBindByName(column = "Full Name")
     private String fullName;
+
+    @CsvBindByName(column = "Date of Birth")
     private LocalDate dateOfBirth;
+
+    @CsvBindByName(column = "Enabled")
     private boolean enabled;
 }
