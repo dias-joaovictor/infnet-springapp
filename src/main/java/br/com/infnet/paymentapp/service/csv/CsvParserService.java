@@ -5,8 +5,8 @@ import org.springframework.core.io.Resource;
 
 import java.util.List;
 
-public interface CsvLoaderService {
+public interface CsvParserService<T extends Csv> {
 
-    <T extends Csv> List<T> load(Resource file, Class<T> clazz);
+    List<T> parse(Resource file, Class<T> clazz);
 
 }

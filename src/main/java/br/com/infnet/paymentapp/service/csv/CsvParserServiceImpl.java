@@ -12,10 +12,10 @@ import java.io.Reader;
 import java.util.List;
 
 @Component
-public class CsvLoaderServiceImpl implements CsvLoaderService {
+public class CsvParserServiceImpl<T extends Csv> implements CsvParserService<T> {
 
     @Override
-    public <T extends Csv> List<T> load(Resource resource, Class<T> clazz) {
+    public List<T> parse(Resource resource, Class<T> clazz) {
         try (Reader reader = new InputStreamReader(resource.getInputStream())) {
             CsvToBean<T> cb = new CsvToBeanBuilder<T>(reader)
                     .withType(clazz)

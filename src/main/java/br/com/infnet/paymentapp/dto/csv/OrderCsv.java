@@ -1,6 +1,8 @@
 package br.com.infnet.paymentapp.dto.csv;
 
+import br.com.infnet.paymentapp.loader.ChainLink;
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,11 +16,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderCsv implements Csv {
+public class OrderCsv implements Csv, ChainLink {
 
     @CsvBindByName(column = "ID")
     private UUID id;
 
+    @CsvDate(value = "yyyy-MM-dd")
     @CsvBindByName(column = "Order Date")
     private LocalDate orderDate;
 
@@ -30,14 +33,5 @@ public class OrderCsv implements Csv {
 
     @CsvBindByName(column = "Customer ID")
     private UUID customerId;
-
-    @CsvBindByName(column = "Customer Full Name")
-    private String customerFullName;
-
-    @CsvBindByName(column = "Customer Date of Birth")
-    private LocalDate customerDateOfBirth;
-
-    @CsvBindByName(column = "Customer Enabled")
-    private boolean customerEnabled;
 }
 

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderLoaderMain {
 
-    private final LoaderChainStarter loaderChainStarter;
+    private final ChainStarter chainStarter;
 
     @PostConstruct
     public void startLoading() {
-        loaderChainStarter.startLoaderChain();
+        chainStarter.startChain();
     }
 }

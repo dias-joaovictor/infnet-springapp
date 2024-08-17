@@ -1,25 +1,26 @@
 package br.com.infnet.paymentapp.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Order {
+public class Order extends UUIDEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @JdbcTypeCode(Types.CHAR)
     private UUID id;
     private LocalDate orderDate;
     private BigDecimal amount;
@@ -32,5 +33,8 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<Payment> payments;
+
+    @Transient
+    private UUID customerId;
 }
 
