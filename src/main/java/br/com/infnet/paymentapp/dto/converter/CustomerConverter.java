@@ -6,7 +6,7 @@ import br.com.infnet.paymentapp.model.Customer;
 import org.mapstruct.Mapper;
 
 @Mapper
-public abstract class CustomerConverter implements CsvConverter<CustomerCsv, Customer>,
+public interface CustomerConverter extends CsvConverter<CustomerCsv, Customer>,
         InboundConverter<CustomerModel, Customer>,
         OutboundConverter<Customer, CustomerModel> {
 }
