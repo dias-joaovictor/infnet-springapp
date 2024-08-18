@@ -6,11 +6,13 @@ import br.com.infnet.paymentapp.dto.rest.PaymentModel;
 import br.com.infnet.paymentapp.model.Payment;
 import br.com.infnet.paymentapp.service.endpoint.CrudOperationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/payments")
 @Tag(name = "Payment", description = "The Payment management api")
