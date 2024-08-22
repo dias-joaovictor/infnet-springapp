@@ -25,7 +25,12 @@ public abstract class BasicCrudOperationServiceImpl<E extends ModelEntity, ID ex
         if (entity.getId() != null && repository.existsById((ID) entity.getId())) {
             throw new EntityAlreadyExistsException(getGenericClass(), entity.getId());
         }
+        doBeforeSaveOnSave(entity);
         return repository.save(entity);
+    }
+
+    protected void doBeforeSaveOnSave(E entity) {
+        // Nothing to do
     }
 
     @Override
@@ -39,9 +44,13 @@ public abstract class BasicCrudOperationServiceImpl<E extends ModelEntity, ID ex
         }
 
         crudFindById(id);
-        
         entity.setId(id);
+        doBeforeSaveOnUpdate(entity);
         return repository.save(entity);
+    }
+
+    protected void doBeforeSaveOnUpdate(E entity) {
+        // Nothing to do
     }
 
     @Override

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -23,6 +25,14 @@ public class OrderModel implements RequestModel, ResponseModel {
 
     private BigDecimal totalAmount;
 
-    private UUID customerId;
+    private BigDecimal fee;
+
+    private CustomerModel customer;
+
+    private BigDecimal totalPaid;
+
+    private BigDecimal remainingAmount;
+
+    private List<PaymentModel> payments = new ArrayList<>();
 }
 

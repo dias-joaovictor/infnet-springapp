@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/customers")
 @Tag(name = "Customer", description = "The customer management api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController extends BasicCrud<CustomerModel, CustomerModel, Customer, UUID> {
 
     public CustomerController(CrudOperationService<Customer, UUID> crudOperationService,

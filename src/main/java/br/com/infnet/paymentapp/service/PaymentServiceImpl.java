@@ -1,19 +1,19 @@
 package br.com.infnet.paymentapp.service;
 
+import br.com.infnet.paymentapp.dao.PaymentRepository;
 import br.com.infnet.paymentapp.exception.InvalidEntityException;
 import br.com.infnet.paymentapp.model.Payment;
-import br.com.infnet.paymentapp.service.endpoint.BasicCrudOperationServiceImpl;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
-public class PaymentServiceImpl extends BasicCrudOperationServiceImpl<Payment, UUID> implements PaymentService {
+public class PaymentServiceImpl extends PaymentCrudService implements PaymentService {
 
     private final OrderService orderService;
 
-    public PaymentServiceImpl(JpaRepository<Payment, UUID> repository, OrderService orderService) {
+    public PaymentServiceImpl(PaymentRepository repository, OrderService orderService) {
         super(repository);
         this.orderService = orderService;
     }
@@ -22,11 +22,17 @@ public class PaymentServiceImpl extends BasicCrudOperationServiceImpl<Payment, U
     public void save(Payment entity) {
         repository.save(entity);
     }
+    
+    @Override
+    protected void doBeforeSaveOnSave(Payment entity) {
+        super.doBeforeSaveOnSave(entity);
+        includeOrder(entity);
+    }
 
     @Override
-    public Payment crudSave(Payment entity) {
+    protected void doBeforeSaveOnUpdate(Payment entity) {
+        super.doBeforeSaveOnUpdate(entity);
         includeOrder(entity);
-        return super.crudSave(entity);
     }
 
     private void includeOrder(Payment entity) {
@@ -34,5 +40,10 @@ public class PaymentServiceImpl extends BasicCrudOperationServiceImpl<Payment, U
             throw new InvalidEntityException(Payment.class, "Order ID not present");
         }
         entity.setOrder(orderService.getOrderById(entity.getOrderId()));
+    }
+
+    @Override
+    public List<Payment> findByOrderId(UUID orderId) {
+        return ((PaymentRepository) repository).findByOrderId(orderId);
     }
 }

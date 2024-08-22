@@ -7,6 +7,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import java.math.BigDecimal;
 import java.sql.Types;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,10 +32,26 @@ public class Order extends UUIDEntity {
     @JoinColumn(name = "customerId")
     private Customer customer;
 
-    @OneToMany(mappedBy = "order")
-    private List<Payment> payments;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    private List<Payment> payments = new ArrayList<>();
 
     @Transient
     private UUID customerId;
+
+    @Transient
+    private BigDecimal remainingAmount;
+
+    @Transient
+    public BigDecimal getTotalPaid() {
+        return payments.stream()
+                .map(Payment::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Transient
+    public BigDecimal getRemainingAmount() {
+        return totalAmount.subtract(getTotalPaid());
+    }
 }
 
